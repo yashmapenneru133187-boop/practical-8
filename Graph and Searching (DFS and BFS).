@@ -1,0 +1,68 @@
+# Graph Implementation using DFS and BFS
+
+from collections import deque
+
+# Create a graph using an adjacency list
+graph = {}
+
+n = int(input("Enter number of vertices: "))
+
+for i in range(n):
+    vertex = input("Enter vertex name: ")
+    graph[vertex] = []
+
+e = int(input("Enter number of edges: "))
+
+for i in range(e):
+    u, v = input("Enter edge (u v): ").split()
+
+    # Undirected graph
+    graph[u].append(v)
+    graph[v].append(u)
+
+
+# Depth First Search (DFS)
+def dfs(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+
+    visited.add(start)
+    print(start, end=" ")
+
+    for neighbor in graph[start]:
+        if neighbor not in visited:
+            dfs(graph, neighbor, visited)
+
+
+# Breadth First Search (BFS)
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+
+    while queue:
+        vertex = queue.popleft()
+        print(vertex, end=" ")
+
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+
+# Display graph
+print("\nGraph (Adjacency List):")
+for vertex in graph:
+    print(vertex, ":", graph[vertex])
+
+start = input("\nEnter starting vertex: ")
+
+if start in graph:
+    print("\nDFS Traversal:")
+    dfs(graph, start)
+
+    print("\nBFS Traversal:")
+    bfs(graph, start)
+    print()
+else:
+    print("Invalid starting vertex!")
